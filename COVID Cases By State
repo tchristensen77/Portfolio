@@ -89,14 +89,16 @@ ORDER BY
   fully_vac_by_percent DESC
 LIMIT 5
 
-## Next ran query to see the number of children in each state that had been vaccinated in the 5-18 year old age range.
+## The last query was to see the state vaccination totals by age group.
 
 SELECT  
   date, 
   location, 
   Series_Complete_5Plus AS vac_5yr,
   Series_Complete_18Plus AS vac_18yr,
-  vac_5yr - vac_18yr 
+  Series_Complete_65Plus AS vac_65yr
+  vac_5yr - vac_18yr AS age_5_to_18,
+  vac_18yr - vac_65yr AS age_18_to_65
 FROM 
   `course-3-projects-353918.health.vaccine`
 WHERE 
