@@ -29,4 +29,63 @@ SELECT
   Series_Complete_65PlusPop_Pct AS vac_65yrpercent,
   Additional_Doses AS first_booster, 
   Additional_Doses_Vax_Pct AS first_booster_percent
-FROM `course-3-projects-353918.health.vaccine` 
+FROM 
+  `course-3-projects-353918.health.vaccine` 
+  
+## Organized data by state to identify US territories included in the list.
+
+SELECT  
+  date, 
+  location
+FROM 
+  `course-3-projects-353918.health.vaccine` 
+ORDER BY 
+  location
+  
+## Next query was to see when the data was last updated.
+
+SELECT  
+  date, 
+  location, 
+  Series_Complete_Yes AS num_fully_vac, 
+  Series_Complete_Pop_Pct AS fully_vac_by_percent
+FROM 
+  `course-3-projects-353918.health.vaccine` 
+ORDER BY 
+  date DESC
+
+## Last date that states reported vaccination was '2022-06-29', I used this date to pull most recent data.
+## Next query was to see which five states had the lowest vaccination precentage not including US territories.
+
+SELECT  
+  date, 
+  location, 
+  Series_Complete_Yes AS num_fully_vac, 
+  Series_Complete_Pop_Pct AS fully_vac_by_percent
+FROM 
+`course-3-projects-353918.health.vaccine` 
+WHERE 
+  date = '2022-06-29'
+AND 
+  location NOT IN ('AS', 'PW', 'MP', 'PR', 'GU', 'IH2', 'MH', 'BP2', 'DD2', 'VA2', 'VI')
+ORDER BY 
+  fully_vac_by_percent
+LIMIT 5
+
+## Then ran it again to see the top five state for vaccination precentage.
+
+SELECT  
+  date, 
+  location, 
+  Series_Complete_Yes AS num_fully_vac, 
+  Series_Complete_Pop_Pct AS fully_vac_by_percent
+FROM 
+`course-3-projects-353918.health.vaccine` 
+WHERE 
+  date = '2022-06-29'
+AND 
+  location NOT IN ('AS', 'PW', 'MP', 'PR', 'GU', 'IH2', 'MH', 'BP2', 'DD2', 'VA2', 'VI')
+ORDER BY 
+  fully_vac_by_percent DESC
+LIMIT 5
+
