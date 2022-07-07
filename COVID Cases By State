@@ -14,7 +14,7 @@ FROM
   
 
 ## Second dataset downloaded included data of COVID vaccinations by state.
-## First query was to filter only the column needed for the project.
+## First query to pull information about number of people fully vaccinated and vaccination precent then by age category.
 
 SELECT  
   date, 
@@ -32,7 +32,7 @@ SELECT
 FROM 
   `course-3-projects-353918.health.vaccine` 
   
-## Organized data by state to identify US territories included in the list.
+## Organized data by state to identify US territories included in the data.
 
 SELECT  
   date, 
@@ -54,7 +54,7 @@ FROM
 ORDER BY 
   date DESC
 
-## Last date that states reported vaccination was '2022-06-29', I used this date to pull most recent data.
+## Last date that states reported vaccination information was '2022-06-29', I used this date to pull most recent data.
 ## Next query was to see which five states had the lowest vaccination precentage not including US territories.
 
 SELECT  
