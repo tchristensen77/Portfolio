@@ -1,1 +1,32 @@
 ## This project is exploring COVID cases, deaths and vaccinations by State. Datasets were downloaded from the CDC website and queried in BigQuery. 
+## Data was used to create visualizations on Tableau.
+
+## First dataset downloaded included data of COVID cases reported by state. 
+## Queried data to obtain list of cases and deaths reported by state each day
+
+SELECT 
+  submission_date,
+  state,
+  new_case,
+  new_death
+FROM
+  `course-3-projects-353918.health.casesbystate` 
+  
+
+## Second dataset downloaded included data of COVID vaccinations by state.
+## First query was to filter only the column needed for the project.
+
+SELECT  
+  date, 
+  location, 
+  Series_Complete_Yes AS num_fully_vac, 
+  Series_Complete_Pop_Pct AS fully_vac_by_percent,
+  Series_Complete_5Plus AS vac_5yr, 
+  Series_Complete_5PlusPop_Pct AS vac_5yrpercent,
+  Series_Complete_18Plus AS vac_18yr,  
+  Series_Complete_18PlusPop_Pct AS vac_18yrpercent, 
+  Series_Complete_65Plus AS vac_65yr,
+  Series_Complete_65PlusPop_Pct AS vac_65yrpercent,
+  Additional_Doses AS first_booster, 
+  Additional_Doses_Vax_Pct AS first_booster_percent
+FROM `course-3-projects-353918.health.vaccine` 
