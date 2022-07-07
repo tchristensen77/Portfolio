@@ -11,8 +11,8 @@ SELECT
   new_death
 FROM
   `course-3-projects-353918.health.casesbystate` 
+ 
   
-
 ## Second dataset downloaded included data of COVID vaccinations by state.
 ## First query to pull information about number of people fully vaccinated and vaccination precent then by age category.
 
@@ -32,7 +32,7 @@ SELECT
 FROM 
   `course-3-projects-353918.health.vaccine` 
   
-## Organized data by state to identify US territories included in the data.
+## Organized data by state to identify US territories included in the dataset.
 
 SELECT  
   date, 
@@ -42,7 +42,7 @@ FROM
 ORDER BY 
   location
   
-## Next query was to see when the data was last updated.
+## Next query was to see the most recent date that the dataset was updated.
 
 SELECT  
   date, 
@@ -72,7 +72,7 @@ ORDER BY
   fully_vac_by_percent
 LIMIT 5
 
-## Then ran it again to see the top five state for vaccination precentage.
+## Then ran the query again ordering by DESC to see the top five state with the highest vaccination precentages.
 
 SELECT  
   date, 
@@ -89,7 +89,7 @@ ORDER BY
   fully_vac_by_percent DESC
 LIMIT 5
 
-## Next ran query to see the number of citizen by state that had been vaccinated in the 5-18 year old age range.
+## Next ran query to see the number of children in each state that had been vaccinated in the 5-18 year old age range.
 
 SELECT  
   date, 
@@ -101,8 +101,10 @@ FROM
   `course-3-projects-353918.health.vaccine`
 WHERE 
   date = '2022-06-29' 
+ORDER BY 
+  location
 
-## Dataset were not joined in BigQuery because I wanted to join them in Tableau instead. 
+## Datasets were not joined in BigQuery because I wanted to join them in Tableau instead. 
 ## If I was to join them in BigQuery, I would have used the query below.
 
 SELECT 
@@ -119,5 +121,5 @@ INNER JOIN
 ON
   cases.submission_date = vaccine.date 
 ORDER BY
-  cases.submission 
+  cases.submission_date
   
