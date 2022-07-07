@@ -89,3 +89,35 @@ ORDER BY
   fully_vac_by_percent DESC
 LIMIT 5
 
+## Next ran query to see the number of citizen by state that had been vaccinated in the 5-18 year old age range.
+
+SELECT  
+  date, 
+  location, 
+  Series_Complete_5Plus AS vac_5yr,
+  Series_Complete_18Plus AS vac_18yr,
+  vac_5yr - vac_18yr 
+FROM 
+  `course-3-projects-353918.health.vaccine`
+WHERE 
+  date = '2022-06-29' 
+
+## Dataset were not joined in BigQuery because I wanted to join them in Tableau instead. 
+## If I was to join them in BigQuery, I would have used the query below.
+
+SELECT 
+  vaccine.date,
+  vaccine.location,
+  vaccine.Series_Complete_Yes,
+  vaccine.Series_Complete_Pop_Pct,
+  cases.new_cases,
+  cases.new_deaths
+FROM
+  `course-3-projects-353918.health.casesbystate` AS cases
+INNER JOIN
+  `course-3-projects-353918.health.vaccine` AS vaccine
+ON
+  cases.submission_date = vaccine.date 
+ORDER BY
+  cases.submission 
+  
