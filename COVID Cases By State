@@ -1,8 +1,8 @@
-## This project is exploring COVID cases, deaths and vaccinations by State. Datasets were downloaded from the CDC website and queried in BigQuery. 
+## This project is exploring COVID cases, deaths and vaccinations by State. Datasets were downloaded from the CDC and US Census Bureau websites and queried in BigQuery. 
 ## Data was used to create visualizations on Tableau.
 
 ## First dataset downloaded included data of COVID cases reported by state. 
-## Queried data to obtain list of cases and deaths reported by state each day
+## Queried data to obtain list of cases and deaths reported by state each day since reporting began.
 
 SELECT 
   submission_date,
@@ -11,10 +11,35 @@ SELECT
   new_death
 FROM
   `course-3-projects-353918.health.casesbystate` 
- 
   
-## Second dataset downloaded included data of COVID vaccinations by state.
-## First query to pull information about number of people fully vaccinated and vaccination precent then by age category.
+## Next query was to determine the total cases and deaths per state
+
+SELECT 
+  state,
+  SUM(new_case),
+  SUM(new_death)
+FROM
+  `course-3-projects-353918.health.casesbystate` 
+GROUP BY
+  state
+  
+## The second dataset download included data of state populations and was joined to the first dataset to get the deaths per capita
+
+SELECT 
+  cases.state,
+  pop.POPESTIMATE2021 AS total_pop,
+  (SUM(new_death)/total_pop)*100,
+FROM
+  `course-3-projects-353918.health.casesbystate` AS cases
+INNER JOIN
+  `course-3-projects-353918.health.population` AS pop
+ON 
+  cases.state = pop.state
+GROUP BY
+  cases.state
+
+## The thirst dataset downloaded included data of COVID vaccinations by state.
+## First query to pull information about number of people fully vaccinated and vaccination precentage by age category.
 
 SELECT  
   date, 
@@ -106,7 +131,7 @@ WHERE
 ORDER BY 
   location
 
-## Datasets were not joined in BigQuery because I wanted to join them in Tableau instead. 
+## The first and thirds datasets were not joined in BigQuery because I wanted to join them in Tableau instead. 
 ## If I was to join them in BigQuery, I would have used the query below.
 
 SELECT 
@@ -123,5 +148,5 @@ INNER JOIN
 ON
   cases.submission_date = vaccine.date 
 ORDER BY
-  cases.submission_date
+  cases.submission_date DESC
   
