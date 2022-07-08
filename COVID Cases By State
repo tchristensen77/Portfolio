@@ -1,4 +1,5 @@
-## This project is exploring COVID cases, deaths and vaccinations by State. Datasets were downloaded from the CDC and US Census Bureau websites and queried in BigQuery. 
+## This project is exploring COVID cases, deaths and vaccinations by State. 
+## Datasets were downloaded from the CDC and US Census Bureau websites and queried in BigQuery. 
 ## Data was used to create visualizations on Tableau.
 
 ## First dataset downloaded included data of COVID cases reported by state. 
@@ -28,7 +29,7 @@ GROUP BY
 SELECT 
   cases.state,
   pop.POPESTIMATE2021 AS total_pop,
-  (SUM(new_death)/total_pop)*100,
+  (SUM(new_death)/total_pop)*100) AS deaths_per_capita,
 FROM
   `course-3-projects-353918.health.casesbystate` AS cases
 INNER JOIN
