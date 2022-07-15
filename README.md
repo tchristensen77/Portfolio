@@ -1,7 +1,7 @@
 # Portfolio
 ## Portfolio of Current and Past Projects
 
-This repository contains past and current projects, some maybe be in progress so make sure to check back for updates.
+This repository contains past and current projects, some maybe in progress so make sure to check back for updates.
 
 ## COVID Cases by State
 
