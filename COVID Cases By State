@@ -13,6 +13,7 @@ SELECT
 FROM
   `course-3-projects-353918.health.casesbystate` 
   
+## I had BigQuery populate the results of this query into a new table that I used to futher query and analyze the data.
 ## Next query was to determine the total cases and deaths per state
 
 SELECT 
@@ -24,7 +25,7 @@ FROM
 GROUP BY
   state
   
-## The second dataset download included data of state populations and was joined to the first dataset to get the deaths per capita
+## The second dataset downloaded included state populations and was joined to the first dataset to get the deaths per capita
 
 SELECT 
   cases.state,
@@ -39,7 +40,7 @@ ON
 GROUP BY
   cases.state
 
-## The thirst dataset downloaded included data of COVID vaccinations by state.
+## The third dataset downloaded included data on COVID vaccinations by state.
 ## First query to pull information about number of people fully vaccinated and vaccination precentage by age category.
 
 SELECT  
