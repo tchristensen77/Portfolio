@@ -2,18 +2,19 @@
 ## Datasets were downloaded from the CDC and US Census Bureau websites and queried in BigQuery. 
 ## Data was used to create visualizations on Tableau.
 
-## First dataset downloaded included data of COVID cases reported by state. 
-## Queried data to obtain list of cases and deaths reported by state each day since reporting began.
+## The first dataset downloaded included data of COVID cases reported by state. 
+## First I created a new table with list of cases and deaths reported by state each day since reporting began.
 
 SELECT 
   submission_date,
   state,
   new_case,
   new_death
+INTO 
+  casesbystate
 FROM
-  `course-3-projects-353918.health.casesbystate` 
+  `course-3-projects-353918.health.cases` 
   
-## I had BigQuery populate the results of this query into a new table that I used to futher query and analyze the data.
 ## Next query was to determine the total cases and deaths per state
 
 SELECT 
@@ -21,7 +22,7 @@ SELECT
   SUM(new_case),
   SUM(new_death)
 FROM
-  `course-3-projects-353918.health.casesbystate` 
+  `course-3-projects-353918.health.casesbystate`
 GROUP BY
   state
   
@@ -41,7 +42,7 @@ GROUP BY
   cases.state
 
 ## The third dataset downloaded included data on COVID vaccinations by state.
-## First query to pull information about number of people fully vaccinated and vaccination precentage by age category.
+## First query create a table with information about number of people fully vaccinated and vaccination precentage by age category.
 
 SELECT  
   date, 
@@ -56,6 +57,8 @@ SELECT
   Series_Complete_65PlusPop_Pct AS vac_65yrpercent,
   Additional_Doses AS first_booster, 
   Additional_Doses_Vax_Pct AS first_booster_percent
+INTO
+  vaccinations
 FROM 
   `course-3-projects-353918.health.vaccine` 
   
@@ -65,7 +68,7 @@ SELECT
   date, 
   location
 FROM 
-  `course-3-projects-353918.health.vaccine` 
+  `course-3-projects-353918.health.vaccinations` 
 ORDER BY 
   location
   
@@ -77,7 +80,7 @@ SELECT
   Series_Complete_Yes AS num_fully_vac, 
   Series_Complete_Pop_Pct AS fully_vac_by_percent
 FROM 
-  `course-3-projects-353918.health.vaccine` 
+  `course-3-projects-353918.health.vaccinations` 
 ORDER BY 
   date DESC
 
@@ -90,7 +93,7 @@ SELECT
   Series_Complete_Yes AS num_fully_vac, 
   Series_Complete_Pop_Pct AS fully_vac_by_percent
 FROM 
-`course-3-projects-353918.health.vaccine` 
+`course-3-projects-353918.health.vaccinations` 
 WHERE 
   date = '2022-06-29'
 AND 
@@ -107,7 +110,7 @@ SELECT
   Series_Complete_Yes AS num_fully_vac, 
   Series_Complete_Pop_Pct AS fully_vac_by_percent
 FROM 
-`course-3-projects-353918.health.vaccine` 
+`course-3-projects-353918.health.vaccinations` 
 WHERE 
   date = '2022-06-29'
 AND 
@@ -127,13 +130,13 @@ SELECT
   vac_5yr - vac_18yr AS age_5_to_18,
   vac_18yr - vac_65yr AS age_18_to_65
 FROM 
-  `course-3-projects-353918.health.vaccine`
+  `course-3-projects-353918.health.vaccinations`
 WHERE 
   date = '2022-06-29' 
 ORDER BY 
   location
 
-## The first and thirds datasets were not joined in BigQuery because I wanted to join them in Tableau instead. 
+## The first and third datasets were not joined in BigQuery because I wanted to join them in Tableau instead. 
 ## If I was to join them in BigQuery, I would have used the query below.
 
 SELECT 
@@ -146,7 +149,7 @@ SELECT
 FROM
   `course-3-projects-353918.health.casesbystate` AS cases
 INNER JOIN
-  `course-3-projects-353918.health.vaccine` AS vaccine
+  `course-3-projects-353918.health.vaccinations` AS vaccine
 ON
   cases.submission_date = vaccine.date 
 ORDER BY
