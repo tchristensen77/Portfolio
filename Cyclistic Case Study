@@ -7,38 +7,107 @@
 ##First I created a table with all 12 months of data.
 
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.april2022trips`
+FROM `case-study-356622.cyclistic.apr2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.may2022trips`
+FROM `case-study-356622.cyclistic.aug2021rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.june2022trips`
+FROM `case-study-356622.cyclistic.dec2021rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.july2021trips`
+FROM `case-study-356622.cyclistic.feb2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.august2021trips`
+FROM `case-study-356622.cyclistic.jan2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.sept2021trips`
+FROM `case-study-356622.cyclistic.jul2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.oct2021trips`
+FROM `case-study-356622.cyclistic.jun2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.nov2021trips`
+FROM `case-study-356622.cyclistic.mar2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.dec2021trips`
+FROM `case-study-356622.cyclistic.may2022rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.jan2022trips`
+FROM `case-study-356622.cyclistic.nov2021rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.feb2022trips`
+FROM `case-study-356622.cyclistic.oct2021rides`
 UNION ALL
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
-FROM `case-study-356622.cyclistic.mar2022trips`
+FROM `case-study-356622.cyclistic.sep2021rides`
 
+## Next identified how many rows contained null values.
+
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.allridesdata` 
+WHERE start_station_name IS NULL
+OR end_station_name IS NULL
+
+## Null values made up 7% of all ride. I decided that this was an acceptable amount to remove from the dataset.
+
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+INTO allrides
+FROM `case-study-356622.cyclistic.allridesdata` 
+WHERE start_station_name IS NOT NULL
+OR end_station_name IS NOT NULL
+
+## Next I added a column with the starting and ending stations so I would be able to analyze specific routes.
+
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual, CONCAT(start_station_name, ' to ', end_station_name) AS route
+FROM `case-study-356622.cyclistic.allrides`
+
+## Next I wanted information about the number of rides per bike type.
+
+SELECT rideable_type, COUNT(rideable_type)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY rideable_type
+
+## Next I wanted to look at the most popular station for people to rent bikes from.
+
+SELECT start_station_name, count(start_station_name)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY start_station_name
+ORDER BY COUNT(start_station_name) DESC
+LIMIT 10
+
+## And the 10 most least popular starting stations.
+
+SELECT start_station_name, count(start_station_name)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY start_station_name
+ORDER BY COUNT(start_station_name) 
+LIMIT 10
+
+## Repeated this for ending stations and routes
+
+SELECT end_station_name, count(end_station_name)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY end_station_name
+ORDER BY COUNT(end_station_name) 
+LIMIT 10
+
+SELECT route, COUNT(route)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY route
+ORDER BY COUNT(route) 
+LIMIT 10
+
+## Next I wanted to determine that number of rentals for each bike type per each month to see if there was any trend on bike types during certain months or seasons
+
+SELECT  rideable_type, COUNT(rideable_type) AS count
+FROM `case-study-356622.cyclistic.allrides`
+WHERE started_at BETWEEN '2022-01-01 00:00:00 UTC' AND '2022-01-31 23:59:59 UTC'
+GROUP BY rideable_type
+
+## Next I looked at the number of rentals per day per month to see what days where the most/least popular.
+
+SELECT day_of_week, COUNT(day_of_weeK)
+FROM `case-study-356622.cyclistic.allrides`
+WHERE started_at BETWEEN '2021-12-01 00:00:00 UTC' AND '2021-12-31 23:59:59 UTC'
+GROUP BY day_of_week
