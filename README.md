@@ -11,4 +11,4 @@ This project explores COVID  case trends over time in relation to new variants a
 
 This is my capstone project for the Google Data Analytics Certificate. This project is still in progress.
 
-Portfolio website can be viewed (here) [https://tdemarree17.wixsite.com/trena-christensen]
+Portfolio website can be viewed here https://tdemarree17.wixsite.com/trena-christensen
