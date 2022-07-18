@@ -1,0 +1,44 @@
+## This is my capstone project for the Google Data Analytics Certificate.
+
+## In this project I am assisting a bike rental company, Cyclistic to determine how to convert casual riders to memebers.
+## I was provided with the past 12 months of ride data. I started the cleaning process in Excel and then uploaded the files to BigQuery.
+## See blog post for more information about the case study.
+
+##First I created a table with all 12 months of data.
+
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.april2022trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.may2022trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.june2022trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.july2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.august2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.sept2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.oct2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.nov2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.dec2021trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.jan2022trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.feb2022trips`
+UNION ALL
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+FROM `case-study-356622.cyclistic.mar2022trips`
+
