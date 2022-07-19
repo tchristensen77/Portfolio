@@ -136,3 +136,13 @@ SELECT member_casual,
   AVG(DATE_DIFF(ended_at,started_at, minute))
 FROM `case-study-356622.cyclistic.allrides`
 GROUP BY member_casual
+
+## Finally I wanted to see how many rides where started during each hour of the day broken down by member and casual riders.
+
+SELECT 
+  EXTRACT(hour FROM started_at) AS hour_ride_started, 
+  COUNT(rideable_type) AS num_of_rides, 
+  member_casual
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY hour_ride_started, member_casual
+ORDER BY hour_ride_started
