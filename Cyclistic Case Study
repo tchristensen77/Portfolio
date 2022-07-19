@@ -50,6 +50,7 @@ WHERE start_station_name IS NULL
 OR end_station_name IS NULL
 
 ## Null values made up 7% of all ride. I decided that this was an acceptable amount to remove from the dataset.
+## I created a new table without null values.
 
 SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
 INTO allrides
@@ -98,16 +99,40 @@ GROUP BY route
 ORDER BY COUNT(route) 
 LIMIT 10
 
-## Next I wanted to determine that number of rentals for each bike type per each month to see if there was any trend on bike types during certain months or seasons
+## Next I looked at the most popular routes for members and casual riders.
+
+SELECT route, COUNT(route) AS COUNT
+FROM `case-study-356622.cyclistic.allrides`
+WHERE member_casual = 'member'
+GROUP BY route
+ORDER BY COUNT(route) DESC
+LIMIT 15
+
+SELECT route, COUNT(route) AS COUNT
+FROM `case-study-356622.cyclistic.allrides`
+WHERE member_casual = 'casual'
+GROUP BY route
+ORDER BY COUNT(route) DESC
+LIMIT 15
+
+
+## Next I wanted to determine that number of rentals for each bike type per each month to see if there was any trend on bike types during certain months or seasons.
 
 SELECT  rideable_type, COUNT(rideable_type) AS count
 FROM `case-study-356622.cyclistic.allrides`
 WHERE started_at BETWEEN '2022-01-01 00:00:00 UTC' AND '2022-01-31 23:59:59 UTC'
 GROUP BY rideable_type
 
-## Next I looked at the number of rentals per day per month to see what days where the most/least popular.
+## Next I looked at the number of rentals/weekday/month by bike type and by member status.
 
-SELECT day_of_week, COUNT(day_of_weeK)
+SELECT member_casual, day_of_week, rideable_type, COUNT(day_of_weeK) AS count
 FROM `case-study-356622.cyclistic.allrides`
 WHERE started_at BETWEEN '2021-12-01 00:00:00 UTC' AND '2021-12-31 23:59:59 UTC'
-GROUP BY day_of_week
+GROUP BY member_casual, rideable_type, day_of_week
+
+## Once I had this information, I wanted to know the difference in the avg rental times for members and casual riders
+
+SELECT member_casual, 
+  AVG(DATE_DIFF(ended_at,started_at, minute))
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY member_casual
