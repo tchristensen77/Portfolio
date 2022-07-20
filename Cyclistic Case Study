@@ -50,24 +50,41 @@ WHERE start_station_name IS NULL
 OR end_station_name IS NULL
 
 ## Null values made up 7% of all ride. I decided that this was an acceptable amount to remove from the dataset.
-## I created a new table without null values.
+## I created a new table without null values and added a column with the starting and ending stations so I would be able to analyze specific routes.
 
-SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual
+SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual,
+CONCAT(start_station_name, ' to ', end_station_name) AS route
 INTO allrides
 FROM `case-study-356622.cyclistic.allridesdata` 
 WHERE start_station_name IS NOT NULL
 OR end_station_name IS NOT NULL
 
-## Next I added a column with the starting and ending stations so I would be able to analyze specific routes.
-
-SELECT ride_id, rideable_type,started_at, ended_at, day_of_week, ride_length, start_station_name, end_station_name, member_casual, CONCAT(start_station_name, ' to ', end_station_name) AS route
-FROM `case-study-356622.cyclistic.allrides`
-
-## Next I wanted information about the number of rides per bike type.
+## Now that I had the table created, I wanted to start getting basic information about the data.
+## The number of rides per bike type.
 
 SELECT rideable_type, COUNT(rideable_type)
 FROM `case-study-356622.cyclistic.allrides`
 GROUP BY rideable_type
+
+## The number of ride per renter typer (member vs casual).
+
+SELECT member_casual, COUNT(member_casual)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY member_casual
+
+## The number of routes by renter type.
+
+SELECT route, COUNT(route) AS COUNT
+FROM `case-study-356622.cyclistic.allrides`
+WHERE member_casual = 'casual'
+GROUP BY route
+ORDER BY COUNT(route) DESC
+
+SELECT route, COUNT(route) AS COUNT
+FROM `case-study-356622.cyclistic.allrides`
+WHERE member_casual = 'member'
+GROUP BY route
+ORDER BY COUNT(route) DESC
 
 ## Next I wanted to look at the most popular station for people to rent bikes from.
 
@@ -85,7 +102,7 @@ GROUP BY start_station_name
 ORDER BY COUNT(start_station_name) 
 LIMIT 10
 
-## Repeated this for ending stations and routes
+## Next I repeated this for ending stations and for routes.
 
 SELECT end_station_name, count(end_station_name)
 FROM `case-study-356622.cyclistic.allrides`
@@ -99,7 +116,7 @@ GROUP BY route
 ORDER BY COUNT(route) 
 LIMIT 10
 
-## Next I looked at the most popular routes for members and casual riders.
+## Next I broke it down by the most popular routes for members and casual riders.
 
 SELECT route, COUNT(route) AS COUNT
 FROM `case-study-356622.cyclistic.allrides`
@@ -115,6 +132,22 @@ GROUP BY route
 ORDER BY COUNT(route) DESC
 LIMIT 15
 
+## I noticed that many of the top routes where starting and stoping at the same station.
+## So I wanted to see how many trips did this for each renter type.
+
+SELECT member_casual,start_station_name, end_station_name, COUNT(member_casual) AS count
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY member_casual, start_station_name, end_station_name
+HAVING start_station_name = end_station_name
+AND member_casual = 'casual'
+ORDER BY COUNT(member_casual) DESC
+
+SELECT member_casual,start_station_name, end_station_name, COUNT(member_casual)
+FROM `case-study-356622.cyclistic.allrides`
+GROUP BY member_casual, start_station_name, end_station_name
+HAVING start_station_name = end_station_name
+AND member_casual = 'member'
+ORDER BY COUNT(member_casual) DESC
 
 ## Next I wanted to determine that number of rentals for each bike type per each month to see if there was any trend on bike types during certain months or seasons.
 
@@ -123,7 +156,7 @@ FROM `case-study-356622.cyclistic.allrides`
 WHERE started_at BETWEEN '2022-01-01 00:00:00 UTC' AND '2022-01-31 23:59:59 UTC'
 GROUP BY rideable_type
 
-## Next I looked at the number of rentals/weekday/month by bike type and by member status.
+## Next I looked at the number of rentals/weekday/month by bike type and by renter type.
 
 SELECT member_casual, day_of_week, rideable_type, COUNT(day_of_weeK) AS count
 FROM `case-study-356622.cyclistic.allrides`
@@ -146,3 +179,4 @@ SELECT
 FROM `case-study-356622.cyclistic.allrides`
 GROUP BY hour_ride_started, member_casual
 ORDER BY hour_ride_started
+
