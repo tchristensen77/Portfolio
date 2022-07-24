@@ -3,7 +3,7 @@
 
 This repository contains past and current projects, some maybe in progress so make sure to check back for updates.
 
-Portfolio website can be viewed here https://tdemarree17.wixsite.com/trena-christensen
+Portfolio website can be viewed [here](https://tdemarree17.wixsite.com/trena-christensen)
 
 ## COVID Cases by State
 
