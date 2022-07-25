@@ -26,6 +26,46 @@ FROM
 GROUP BY
   state
   
+## Next I wanted to get the percentage of cases by state.
+
+SELECT
+  state,
+  SUM(new_case)/
+     SUM(SELECT 
+        SUM(new_case)
+     FROM
+       `course-3-projects-353918.health.casesbystate`) AS case_percent
+FROM
+  `course-3-projects-353918.health.casesbystate`
+GROUP BY state
+  
+## Next I wanted to see the number of cases per state per year.
+
+SELECT 
+   state,
+   SUM(new_case)
+FROM 
+    `course-3-projects-353918.health.casesbystate`
+WHERE submission_date >= 01-01-2020 AND submission_date <= 12-31-2020
+GROUP BY state
+
+SELECT 
+   state,
+   SUM(new_case)
+FROM 
+    `course-3-projects-353918.health.casesbystate`
+WHERE submission_date >= 01-01-2021 AND submission_date <= 12-31-2021
+GROUP BY state
+ 
+SELECT 
+   state,
+   SUM(new_case)
+FROM 
+    `course-3-projects-353918.health.casesbystate`
+WHERE submission_date >= 01-01-2022 
+GROUP BY state
+  
+  
 ## The second dataset downloaded included state populations and was joined to the first dataset to get the deaths per capita
 
 SELECT 
