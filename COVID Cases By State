@@ -19,12 +19,13 @@ FROM
 
 SELECT 
   state,
-  SUM(new_case),
-  SUM(new_death)
+  SUM(new_case) AS total_cases,
+  SUM(new_death) AS total_deaths
 FROM
   `course-3-projects-353918.health.casesbystate`
 GROUP BY
   state
+ORDER BY total_cases DESC
   
 ## Next I wanted to get the percentage of cases and deaths per state.
 
@@ -44,24 +45,30 @@ SELECT
    SUM(new_case)
 FROM 
     `course-3-projects-353918.health.casesbystate`
-WHERE submission_date >= 01-01-2020 AND submission_date <= 12-31-2020
-GROUP BY state
+WHERE 
+  submission_date >= '01-01-2020' AND submission_date <= '12-31-2020'
+GROUP BY 
+  state
 
 SELECT 
    state,
    SUM(new_case)
 FROM 
     `course-3-projects-353918.health.casesbystate`
-WHERE submission_date >= 01-01-2021 AND submission_date <= 12-31-2021
-GROUP BY state
+WHERE 
+  submission_date >= '01-01-2021' AND submission_date <= '12-31-2021'
+GROUP BY  
+  state
  
 SELECT 
    state,
    SUM(new_case)
 FROM 
     `course-3-projects-353918.health.casesbystate`
-WHERE submission_date >= 01-01-2022 
-GROUP BY state
+WHERE 
+  submission_date >= '01-01-2022' 
+GROUP BY 
+  state
 
 ## Also the max and min cases and deaths in total then by state
 
@@ -72,7 +79,18 @@ SELECT
   min(new_death)
 FROM
   `course-3-projects-353918.health.casesbystate`
-GROUP BY state
+
+SELECT 
+  max(new_case),
+  min(new_case),
+  max(new_death),
+  min(new_death)
+FROM
+  `course-3-projects-353918.health.casesbystate`
+GROUP BY 
+  state
+ORDER BY
+  state
  
   
 ## The second dataset downloaded included state populations and was joined to the first dataset to get the deaths per capita
