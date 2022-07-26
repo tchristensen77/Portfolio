@@ -1,4 +1,4 @@
-## This project is exploring COVID cases, deaths and vaccinations by State. 
+## This project is to explore the trends of COVID cases, deaths and vaccinations by State. 
 ## Datasets were downloaded from the CDC and US Census Bureau websites and queried in BigQuery. 
 ## Data was used to create visualizations on Tableau.
 
@@ -26,18 +26,16 @@ FROM
 GROUP BY
   state
   
-## Next I wanted to get the percentage of cases by state.
+## Next I wanted to get the percentage of cases and deaths per state.
 
 SELECT
   state,
-  SUM(new_case)/
-     SUM(SELECT 
-        SUM(new_case)
-     FROM
-       `course-3-projects-353918.health.casesbystate`) AS case_percent
+  (new_case / SUM(new_case)) AS case_percent,
+  (new_death /SUM(new_death)) AS death_percent
 FROM
   `course-3-projects-353918.health.casesbystate`
-GROUP BY state
+GROUP BY state, case_percent, death_percent
+
   
 ## Next I wanted to see the number of cases per state per year.
 
@@ -64,7 +62,18 @@ FROM
     `course-3-projects-353918.health.casesbystate`
 WHERE submission_date >= 01-01-2022 
 GROUP BY state
-  
+
+## Also the max and min cases and deaths in total then by state
+
+SELECT 
+  max(new_case),
+  min(new_case),
+  max(new_death),
+  min(new_death)
+FROM
+  `course-3-projects-353918.health.casesbystate`
+GROUP BY state
+ 
   
 ## The second dataset downloaded included state populations and was joined to the first dataset to get the deaths per capita
 
