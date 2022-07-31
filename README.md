@@ -2,12 +2,13 @@
 ## Portfolio of Current and Past Projects
 
 This repository contains past and current projects, some maybe in progress so make sure to check back for updates.
+Smaller projects can be viewed in the SQL and R repositories.
 
 Portfolio website can be viewed [here](https://tdemarree17.wixsite.com/trena-christensen)
 
 ## COVID Cases by State
 
-This project explores COVID case trends over time in relation to new variants and vaccinations.
+This project is an exploratory analysis of COVID case trends over time in relation to new variants and vaccinations. Visualizations were built in Tableau.
 
 Datasets where downloaded from the CDC and the Census Bureau.
 
