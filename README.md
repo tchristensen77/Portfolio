@@ -2,7 +2,7 @@
 ## Portfolio of Current and Past Projects
 
 This repository contains past and current projects, some maybe in progress so make sure to check back for updates.
-Smaller projects can be viewed in the SQL and R repositories.
+Smaller projects can be viewed in the [SQL](https://github.com/tchristensen77/SQL) and [R](https://github.com/tchristensen77/R) repositories.
 
 Portfolio website can be viewed [here](https://tdemarree17.wixsite.com/trena-christensen)
 
